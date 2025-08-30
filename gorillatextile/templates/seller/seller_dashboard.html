@@ -503,10 +503,11 @@
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">
-                    <img src="{% static 'image/r.jpg' %}" alt="Gorilla Textile Logo" class="logo-img">
+                    <a style="text-decoration: none;" href="{% url 'home' %}">
+                        <img src="{% static 'image/r.jpg' %}" alt="Gorilla Textile Logo" class="logo-img"></a>
                     <span class="logo-text">Gorilla Textile</span>
                 </div>
-                <div class="sidebar-subtitle">Seller Dashboard</div>
+                <div class="sidebar-subtitle"> Dashboard</div>
             </div>
             
             <nav class="sidebar-nav">
