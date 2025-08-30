@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +11,32 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+
+            
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 15px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .sidebar-subtitle {
+            font-size: 14px;
+            color: #ccc;
+            margin-top: 5px;
         }
 
         body {
@@ -24,7 +52,7 @@
             top: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #3357f5ff 0%, #140027ff 100%);
             color: white;
             z-index: 1000;
             box-shadow: 0 2px 20px rgba(0,0,0,0.1);
@@ -80,7 +108,7 @@
             right: 5px;
             top: 50%;
             transform: translateY(-50%);
-            background: #ff6b6b;
+            background: #080be6ff;
             border: none;
             border-radius: 50%;
             width: 35px;
@@ -134,7 +162,7 @@
         .hero-section {
             text-align: center;
             padding: 3rem 0;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #0b0225ff 0%, #1b18e7ff 100%);
             color: white;
             margin-bottom: 3rem;
             border-radius: 20px;
@@ -258,7 +286,7 @@
 
         /* Footer */
         .footer {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background: linear-gradient(135deg, #012447ff 0%, #0a1442ff 100%);
             color: white;
             padding: 3rem 0 1rem;
             margin-top: 4rem;
@@ -393,7 +421,12 @@
     <!-- Fixed Header -->
     <header class="header">
         <div class="header-container">
-            <a href="#" class="logo">🛍️ Gorilla Textile</a>
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <img src="{% static 'image/r.jpg' %}" alt="Gorilla Textile Logo" class="logo-img">
+                    <span class="logo-text">Gorilla Textile</span>
+                </div>
+            </div>
             
             <div class="search-container">
                 <form method="get" action="">

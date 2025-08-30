@@ -76,15 +76,27 @@ def category_create(request):
     return redirect("sellerd")
 
 
+
+
 @login_required
-def category_delete(request, pk):
-    category = get_object_or_404(Category, pk=pk)
+def add_product_image(request):
+    if request.method == "POST":
+        product_id = request.POST.get("product_id")
+        product = get_object_or_404(Product, id=product_id)
+        images = request.FILES.getlist("images")
+        for img in images:
+            product.images.create(image=img)
+        return redirect("sellerd")  # Redirect back to your product table
+
+
+@login_required
+def delete_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
     category.delete()
     return redirect("sellerd")
 
-
 @login_required
-def product_delete(request, pk):
-    product = get_object_or_404(Product, pk=pk)
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
     product.delete()
-    return redirect("sellerd")
+    return redirect("sellerd") 

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +7,34 @@
     <title>Seller Dashboard - Gorilla Textile</title>
     <style>
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+            
+            
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 15px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .sidebar-subtitle {
+            font-size: 14px;
+            color: #ccc;
+            margin-top: 5px;
         }
 
         body {
@@ -26,7 +52,7 @@
         /* Sidebar */
         .sidebar {
             width: 280px;
-            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            background: linear-gradient(180deg, #030a38ff 0%, #120c63ff 100%);
             color: white;
             position: fixed;
             height: 100vh;
@@ -476,7 +502,10 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="sidebar-logo">🛍️ Gorilla Textile</div>
+                <div class="sidebar-logo">
+                    <img src="{% static 'image/r.jpg' %}" alt="Gorilla Textile Logo" class="logo-img">
+                    <span class="logo-text">Gorilla Textile</span>
+                </div>
                 <div class="sidebar-subtitle">Seller Dashboard</div>
             </div>
             
@@ -547,10 +576,36 @@
                                 <th>{{product.category.name}}</th>
                                 <th>{{product.price}}</th>
                                 <th>{{product.description}}</th>
-                                <th><img></th>
-                                <th></th>
+                                <th>
+                                    <button class="btn-primary" onclick="openImageModal({{ product.id }})">Add Image</button>
+                                </th>
+                                <th>
+                                   <form method="POST" action="{% url 'delete_product' product.id %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-secondary" onclick="return confirm('Are you sure?')">Delete</button>
+                                    </form>
+                                </th>
                             </tr>
+                            <center>
+                            <!-- Add Image Modal -->
+                            <div id="addImageModal" class="modal">
+                                <div class="modal-content">
+                                    <span class="close" onclick="closeImageModal()" style="cursor:pointer; background-color: red; padding:10px; font-size: 20px;">&times;</span>
+                                    <h3 style =" margin: 10px;">Add Image to Product</h3>
+                                    <form id="addImageForm" method="POST" enctype="multipart/form-data" action ="{% url 'add_product_image' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id" id="modalProductId">
+                                        <div class="form-group">
+                                            <label>Choose Images</label>
+                                            <input type="file" name="images" multiple required>
+                                        </div>
+                                        <button type="submit" class="btn-primary">Upload</button>
+                                    </form>
+                                </div>
+                            </div>
+                            </center>
 
+                            
                              {% endfor %}
                              {% endif %}
                             
@@ -575,8 +630,6 @@
                             <tr>
                                 <th>Category Name</th>
                                 <th>Description</th>
-                                <th>Product Count</th>
-                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -587,7 +640,13 @@
                              <tr>
                                  <th>{{ p.name }}</th>
                                  <th>{{ p.description }}</th>
-                            </tr>
+                                  <th>
+                                     <form method="POST" action="{% url 'delete_category' p.id %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-secondary" onclick="return confirm('Are you sure?')">Delete</button>
+                                    </form>
+                                </th>
+                                </tr>
                             {% endfor %}
                             {% endif %}
                         </tbody>
@@ -705,6 +764,26 @@
 
     <script>
        
+function openImageModal(productId){
+    document.getElementById('modalProductId').value = productId;
+    document.getElementById('addImageModal').style.display = 'block';
+}
+
+function closeImageModal(){
+    document.getElementById('addImageModal').style.display = 'none';
+}
+
+// Close when clicking outside modal
+window.onclick = function(event){
+    const modal = document.getElementById('addImageModal');
+    if(event.target == modal){
+        modal.style.display = 'none';
+    }
+}
+
+
+
+
 
         // Navigation
         function showSection(sectionName) {
