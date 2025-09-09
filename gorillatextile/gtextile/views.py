@@ -76,7 +76,16 @@ def category_create(request):
     return redirect("sellerd")
 
 
-
+@login_required
+def update_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id, created_by=request.user)
+    if request.method == "POST":
+        product.name = request.POST.get("name")
+        product.category_id = request.POST.get("category")
+        product.description = request.POST.get("description")
+        product.save()
+        return redirect("sellerd")  # or seller dashboard page
+    return redirect("sellerd")
 
 @login_required
 def add_product_image(request):

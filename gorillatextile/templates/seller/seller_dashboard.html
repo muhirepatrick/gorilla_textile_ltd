@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seller Dashboard - Gorilla Textile</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+
     <style>
         * {
                     margin: 0;
@@ -564,7 +566,7 @@
                                 <th>Price</th>
                                 <th>description</th>
                                 <th>image</th>
-                                <th>Actions</th>
+                                <th colspan ="2" >Actions</th>
                             </tr>
                         </thead>
                         <tbody id="productsTableBod">
@@ -586,6 +588,13 @@
                                         <button type="submit" class="btn-secondary" onclick="return confirm('Are you sure?')">Delete</button>
                                     </form>
                                 </th>
+                                <th>
+                                   
+                                    <button class="btn-primary" onclick="openUpdateModal({{ product.id }}, '{{ product.name }}', '{{ product.category.id }}', '{{ product.price }}', '{{ product.description }}')">
+                                        Update
+                                    </button>
+
+                                </th>
                             </tr>
                             <center>
                             <!-- Add Image Modal -->
@@ -604,6 +613,55 @@
                                     </form>
                                 </div>
                             </div>
+
+
+                                <!-- Update Product Modal -->
+                                <div id="updateModal-{{ product.id }}" class="modal">
+                                    <div class="modal-content">
+                                        <span class="close" onclick="closeUpdateModal({{ product.id }})" style="cursor:pointer; background-color: red; padding:5px; font-size: 40px; border-radius: 5px">&times;</span>
+                                        <h3 style="margin: 10px;">Update Product</h3>
+                                        <form method="POST" action="{% url 'update_product' product.id %}">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label>Product Name</label>
+                                                <input type="text" name="name" id="updateName-{{ product.id }}" value="{{ product.name }}" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Category</label>
+                                                <select name="category" id="updateCategory-{{ product.id }}" required>
+                                                    {% for c in category %}
+                                                        <option value="{{ c.id }}" {% if product.category.id == c.id %}selected{% endif %}>{{ c.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label>Description</label>
+                                                <textarea name="description" id="updateDescription-{{ product.id }}">{{ product.description }}</textarea>
+                                            </div>
+                                            <button type="submit" class="btn-primary">Save Changes</button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    function openUpdateModal(id, name, categoryId, price, description) {
+                                        document.getElementById("updateModal-" + id).style.display = "block";
+                                    }
+
+                                    function closeUpdateModal(id) {
+                                        document.getElementById("updateModal-" + id).style.display = "none";
+                                    }
+
+                                    // Close modal when clicking outside
+                                    window.onclick = function(event) {
+                                        document.querySelectorAll(".modal").forEach(modal => {
+                                            if (event.target === modal) {
+                                                modal.style.display = "none";
+                                            }
+                                        });
+                                    }
+                                </script>
                             </center>
 
                             

@@ -9,5 +9,7 @@ urlpatterns = [
     path('product/<int:product_id>/delete/', views.delete_product, name='delete_product'),
     path('category/<int:category_id>/delete/', views.delete_category, name='delete_category'),
     path('product/add-image/', views.add_product_image, name='add_product_image'),
+    path("products/<int:product_id>/update/", views.update_product, name="update_product"),
+
     
 ]
