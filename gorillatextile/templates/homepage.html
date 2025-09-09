@@ -401,12 +401,12 @@
             margin: 10% auto;
             padding: 20px;
             width: 80%;
-            max-width: 600px;
+            max-width: 900px;
             border-radius: 10px;
         }
 
         .modal img {
-            width: 100px;
+            width: 400px;
             margin: 5px;
         }
 
@@ -481,7 +481,7 @@
                                         <p>{{ product.description }}</p>
                                         <div class="modal-images">
                                             {% for img in product.images.all %}
-                                                <img src="{{ img.image.url }}" alt="{{ product.name }}">
+                                                <img src="{{ img.image.url }}" alt="{{ product.name }}" >
                                             {% empty %}
                                                 <img src="/static/default-product.png" alt="No image">
                                             {% endfor %}
